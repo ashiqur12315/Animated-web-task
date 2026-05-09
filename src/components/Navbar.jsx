@@ -4,9 +4,11 @@ import MegaMenu from "./MegaMenu";
 import { navItems } from "../data/navData";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import AnimatedText from "./AnimatedText";
+import MobileMenu from "./MobileMenu";
 
 export const Navbar = ({ setMenuOpen }) => {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleEnter = (item) => {
     setActiveMenu(item);
@@ -32,14 +34,11 @@ export const Navbar = ({ setMenuOpen }) => {
       onMouseLeave={handleLeave}
     >
       <div className="flex items-center justify-between">
-        <h1 className="text-5xl font-bold">
-          Rise at Seven
-        </h1>
+        <h1 className="text-5xl font-bold">Rise at Seven</h1>
 
         <div className="hidden lg:flex gap-3">
           {navItems.map((item) => {
-            const isActive =
-              activeMenu?.title === item.title;
+            const isActive = activeMenu?.title === item.title;
 
             return (
               <button
@@ -75,11 +74,7 @@ export const Navbar = ({ setMenuOpen }) => {
                     z-10
                     transition-colors
                     duration-300
-                    ${
-                      isActive
-                        ? "text-black"
-                        : "text-white"
-                    }
+                    ${isActive ? "text-black" : "text-white"}
                   `}
                 >
                   {item.title} +
@@ -104,12 +99,16 @@ export const Navbar = ({ setMenuOpen }) => {
           <AnimatedText text="Get in Touch" />
         </button>
 
-        <button className="lg:hidden text-4xl">
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="lg:hidden text-4xl"
+        >
           <HiOutlineMenuAlt3 />
         </button>
       </div>
 
       <MegaMenu activeMenu={activeMenu} />
+      <MobileMenu isOpen={mobileMenuOpen} setIsOpen={setMobileMenuOpen} />
     </nav>
   );
 };

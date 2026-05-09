@@ -1,20 +1,25 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import SplitType from "split-type";
 
-const images = [
-  "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa",
-  "https://images.unsplash.com/photo-1516849841032-87cbac4d88f",
-  "https://images.unsplash.com/photo-1451187580459-43490279c0fa",
-];
+import hero1 from "../assets/images/b1.png";
+import hero2 from "../assets/images/b2.png";
+import hero3 from "../assets/images/b3.png";
+
+import heroLogo1 from "../assets/images/bl1.png";
+import heroLogo2 from "../assets/images/bl2.png";
+import heroLogo3 from "../assets/images/bl3.png";
+import heroLogo4 from "../assets/images/bl4.png";
+
+const images = [hero1, hero2, hero3];
+const logos = [heroLogo1, heroLogo2, heroLogo3, heroLogo4];
 
 export const Hero = ({ menuOpen }) => {
   const headingRef = useRef(null);
 
-  const randomImage = useMemo(() => {
-    return images[// Math.floor(Math.random() * images.length)
-    0];
-  }, []);
+  const [randomImage] = useState(() => {
+    return images[Math.floor(Math.random() * images.length)];
+  });
 
   useEffect(() => {
     const split = new SplitType(headingRef.current, {
@@ -38,7 +43,11 @@ export const Hero = ({ menuOpen }) => {
         overflow-hidden
         transition-all
         duration-500
-        ${menuOpen ? "blur-md scale-[0.98]" : ""}
+        mx-2
+        my-2
+        rounded-3xl
+        bg-white
+        ${menuOpen ? "blur-sm mx-0 my-0" : ""}
       `}
     >
       <img
@@ -50,12 +59,9 @@ export const Hero = ({ menuOpen }) => {
           h-full
           object-cover
           scale-110
-          blur-3xl
-          opacity-60
+          blur-lg
         "
       />
-
-      <div className="absolute inset-0 bg-black/50" />
 
       <div
         className="
@@ -70,9 +76,23 @@ export const Hero = ({ menuOpen }) => {
           px-6
         "
       >
-        <p className="uppercase tracking-[0.3em] text-sm mb-10">
-          #1 Most Recommended Content Marketing Agency
+        <p className="uppercase tracking-[0.3em] text-sm mb-5">
+          #1 Most Recommended <br /> Content Marketing Agency
         </p>
+        <div className="flex gap-1 space-x-2 mb-6">
+          {logos.map((logo, index) => (
+            <img
+              key={index}
+              src={logo}
+              className="
+                inline-block
+                h-8
+                w-auto
+                object-contain
+                "
+            />
+          ))}
+        </div>
 
         <h1
           ref={headingRef}

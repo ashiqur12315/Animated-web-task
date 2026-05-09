@@ -2,3 +2,8 @@ export * from "./Navbar";
 export * from "./Hero";
 export * from "./AnimatedText";
 export * from "./MegaMenu";
+export * from "./MobileMenu";
+export * from "./TrustedLogos";
+export * from "./DemandSection";
+export * from "./WorkCursor";
+export * from "./FeaturedWork";

@@ -1,13 +1,16 @@
 import { useState } from "react";
-import { Navbar, Hero } from "../components";
+import { Navbar, Hero, TrustedLogos, DemandSection, FeaturedWork } from "../components";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <main className="bg-black text-white">
+    <main className="bg-white text-white">
       <Navbar setMenuOpen={setMenuOpen} />
       <Hero menuOpen={menuOpen} />
+      <TrustedLogos />
+      <DemandSection />
+      <FeaturedWork />
     </main>
   );
 }

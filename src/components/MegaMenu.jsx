@@ -99,8 +99,9 @@ export const MegaMenu = ({ activeMenu }) => {
               />
             </AnimatePresence>
 
-            <button
-              className="
+            {activeMenu && activeMenu.title == "Services" && (
+              <button
+                className="
                 absolute
                 bottom-6
                 left-6
@@ -111,9 +112,10 @@ export const MegaMenu = ({ activeMenu }) => {
                 rounded-full
                 z-10
               "
-            >
-              View All Services →
-            </button>
+              >
+                View All Services →
+              </button>
+            )}
           </div>
         </div>
       </motion.div>
