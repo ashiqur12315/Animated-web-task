@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Navbar, Hero, TrustedLogos, DemandSection, FeaturedWork } from "../components";
+import {
+  Navbar,
+  Hero,
+  TrustedLogos,
+  DemandSection,
+  FeaturedWork,
+  ServicesSection,
+  MovingText,
+  StackedCards,
+} from "../components";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,6 +20,9 @@ function App() {
       <TrustedLogos />
       <DemandSection />
       <FeaturedWork />
+      <ServicesSection />
+      <MovingText />
+      <StackedCards />
     </main>
   );
 }

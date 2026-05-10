@@ -7,3 +7,6 @@ export * from "./TrustedLogos";
 export * from "./DemandSection";
 export * from "./WorkCursor";
 export * from "./FeaturedWork";
+export * from "./ServicesSection";
+export * from "./MovingText";
+export * from "./StackCards";

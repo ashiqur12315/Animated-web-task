@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import work1 from "../assets/images/b1.png";
 import work2 from "../assets/images/b2.png";
 import work3 from "../assets/images/b3.png";
+import AnimatedText from "./AnimatedText";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,23 +51,28 @@ export const FeaturedWork = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // PIN SECTION
+      const cards = gsap.utils.toArray(".work-card");
+
+      const totalScroll = cards.length * window.innerHeight;
+
+      // PIN ENTIRE SECTION
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=3500",
+        end: `+=${totalScroll}`,
         pin: true,
-        scrub: true,
+        scrub: 1,
+        anticipatePin: 1,
       });
 
       // INTERNAL SCROLL
       gsap.to(cardsContainerRef.current, {
         y: () => {
-          return -(
-            cardsContainerRef.current.scrollHeight -
-            window.innerHeight +
-            200
-          );
+          const containerHeight = cardsContainerRef.current.scrollHeight;
+
+          const viewportHeight = window.innerHeight;
+
+          return -(containerHeight - viewportHeight + 200);
         },
 
         ease: "none",
@@ -74,8 +80,8 @@ export const FeaturedWork = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=3500",
-          scrub: true,
+          end: `+=${totalScroll}`,
+          scrub: 1,
 
           onUpdate: (self) => {
             setIsScrolling(true);
@@ -84,7 +90,7 @@ export const FeaturedWork = () => {
 
             window.scrollEndTimer = setTimeout(() => {
               setIsScrolling(false);
-            }, 120);
+            }, 150);
 
             // ACTIVE TITLE
             const progress = self.progress;
@@ -96,9 +102,11 @@ export const FeaturedWork = () => {
 
             titlesRef.current.forEach((title, index) => {
               gsap.to(title, {
-                opacity: index === activeIndex ? 1 : 0.2,
+                opacity: index === activeIndex ? 1 : 0.15,
 
-                duration: 0.3,
+                y: index === activeIndex ? 0 : 20,
+
+                duration: 0.4,
               });
             });
           },
@@ -110,9 +118,10 @@ export const FeaturedWork = () => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="
+    <>
+      <section
+        ref={sectionRef}
+        className="
         relative
         h-screen
         overflow-hidden
@@ -122,16 +131,16 @@ export const FeaturedWork = () => {
         mx-2
         mt-32
       "
-    >
-      {/* CUSTOM CURSOR */}
-      {hovered && !isScrolling && (
-        <div
-          style={{
-            left: mousePosition.x,
-            top: mousePosition.y,
-            transform: "translate(-50%, -50%)",
-          }}
-          className="
+      >
+        {/* CUSTOM CURSOR */}
+        {hovered && !isScrolling && (
+          <div
+            style={{
+              left: mousePosition.x,
+              top: mousePosition.y,
+              transform: "translate(-50%, -50%)",
+            }}
+            className="
             fixed
             z-[9999]
             w-20
@@ -145,22 +154,22 @@ export const FeaturedWork = () => {
             text-4xl
             pointer-events-none
           "
-        >
-          ↗
-        </div>
-      )}
+          >
+            ↗
+          </div>
+        )}
 
-      <div
-        className="
+        <div
+          className="
           grid
           grid-cols-1
           lg:grid-cols-[40%_60%]
           h-full
         "
-      >
-        {/* LEFT */}
-        <div
-          className="
+        >
+          {/* LEFT */}
+          <div
+            className="
             flex
             flex-col
             justify-center
@@ -169,23 +178,23 @@ export const FeaturedWork = () => {
             relative
             z-20
           "
-        >
-          <p
-            className="
+          >
+            <p
+              className="
               text-lg
               mb-14
               text-white/60
             "
-          >
-            Featured Work
-          </p>
+            >
+              Featured Work
+            </p>
 
-          <div className="space-y-5">
-            {works.map((work, index) => (
-              <h2
-                key={work.title}
-                ref={(el) => (titlesRef.current[index] = el)}
-                className="
+            <div className="space-y-5">
+              {works.map((work, index) => (
+                <h2
+                  key={work.title}
+                  ref={(el) => (titlesRef.current[index] = el)}
+                  className="
                   text-[12vw]
                   lg:text-[5vw]
                   leading-[0.9]
@@ -193,74 +202,75 @@ export const FeaturedWork = () => {
                   tracking-[-0.06em]
                   opacity-20
                 "
-              >
-                {work.title}
-              </h2>
-            ))}
+                >
+                  {work.title}
+                </h2>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* RIGHT */}
-        <div
-          className="
+          {/* RIGHT */}
+          <div
+            className="
             relative
             h-screen
             overflow-hidden
             flex
-            items-center
+            items-start
             justify-center
             pr-8
+            pt-10
           "
-        >
-          <div
-            ref={cardsContainerRef}
-            className="
+          >
+            <div
+              ref={cardsContainerRef}
+              className="
               flex
               flex-col
-              gap-6
-              pt-[110vh]
-pb-[30vh]
+              gap-10
+              py-[100vh]
             "
-          >
-            {works.map((work) => (
-              <div
-                key={work.title}
-                onMouseMove={(e) =>
-                  setMousePosition({
-                    x: e.clientX,
-                    y: e.clientY,
-                  })
-                }
-                onMouseEnter={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
-                className="
+            >
+              {works.map((work) => (
+                <div
+                  key={work.title}
+                  onMouseMove={(e) =>
+                    setMousePosition({
+                      x: e.clientX,
+                      y: e.clientY,
+                    })
+                  }
+                  onMouseEnter={() => setHovered(true)}
+                  onMouseLeave={() => setHovered(false)}
+                  className="
+                  work-card
                   relative
                   w-full
                   max-w-[720px]
-                  h-[75vh]
+                  h-[70vh]
                   rounded-[32px]
                   overflow-hidden
                   group
                   cursor-none
                 "
-              >
-                {/* IMAGE */}
-                <img
-                  src={work.image}
-                  alt={work.title}
-                  className="
+                >
+                  {/* IMAGE */}
+                  <img
+                    src={work.image}
+                    alt={work.title}
+                    className="
                     w-full
                     h-full
                     object-cover
                   "
-                />
+                  />
 
-                {/* OVERLAY */}
-                <div
-                  style={{
-                    background: work.bg,
-                  }}
-                  className={`
+                  {/* OVERLAY */}
+                  <div
+                    style={{
+                      background: work.bg,
+                    }}
+                    className={`
                     absolute
                     inset-0
                     p-10
@@ -277,9 +287,9 @@ pb-[30vh]
                         : "translate-y-full group-hover:translate-y-0"
                     }
                   `}
-                >
-                  <h3
-                    className="
+                  >
+                    <h3
+                      className="
                       text-4xl
                       lg:text-5xl
                       font-bold
@@ -287,12 +297,12 @@ pb-[30vh]
                       tracking-[-0.05em]
                       max-w-xl
                     "
-                  >
-                    {work.description}
-                  </h3>
+                    >
+                      {work.description}
+                    </h3>
 
-                  <div
-                    className="
+                    <div
+                      className="
                       mt-10
                       w-24
                       h-24
@@ -303,16 +313,38 @@ pb-[30vh]
                       justify-center
                       text-4xl
                     "
-                  >
-                    ↗
+                    >
+                      ↗
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
+      </section>
+      <div className="flex justify-center">
+        <button
+          className="
+                      bg-[#eeecec]
+                      text-black
+                      px-8
+                      py-4
+                      my-5
+                      align-middle
+                      rounded-full
+                      text-lg
+                      font-medium
+                      hover:rounded-[14px]
+                      transition-[border-radius,background-color,color]
+                      duration-400
+                      ease-[cubic-bezier(0.76,0,0.24,1)]
+                    "
+        >
+          <AnimatedText text="Our Story ↗" />
+        </button>
       </div>
-    </section>
+    </>
   );
 };
 
