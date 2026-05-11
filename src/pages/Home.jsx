@@ -8,13 +8,21 @@ import {
   ServicesSection,
   MovingText,
   StackedCards,
+  WhatsNew,
+  KineticText,
+  Footer,
 } from "../components";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <main className="bg-white text-white">
+    <main
+      className="
+        text-white
+        bg-white
+      "
+    >
       <Navbar setMenuOpen={setMenuOpen} />
       <Hero menuOpen={menuOpen} />
       <TrustedLogos />
@@ -23,6 +31,9 @@ function App() {
       <ServicesSection />
       <MovingText />
       <StackedCards />
+      <WhatsNew />
+      <KineticText />
+      <Footer />
     </main>
   );
 }

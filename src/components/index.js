@@ -10,3 +10,6 @@ export * from "./FeaturedWork";
 export * from "./ServicesSection";
 export * from "./MovingText";
 export * from "./StackCards";
+export * from "./WhatsNew";
+export * from "./KineticText";
+export * from "./Footer";
